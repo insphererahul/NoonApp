@@ -10,7 +10,7 @@ import HomeScreen from "./src/screen/HomeScreen";
 import ProductDetailsScreen from "./src/screen/ProductDetailsScreen";
 import CartScreen from "./src/screen/CartScreen";
 import GameScreen from "./src/screen/GameScreen";
-import { CartProvider } from "./src/context/CartContext";
+import { CartContext, CartProvider } from "./src/context/CartContext";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -105,8 +105,10 @@ const App = () => {
             component={CartScreen}
             options={{
               tabBarIcon: ({ focused, size }) => {
+                const { cartItems } = useContext(CartContext);
                 if (focused) {
                   return (
+                    <View style={{ position: "relative" }}>
                       <Image
                         source={require("./src/assets/focused/shopping_cart.png")}
                         style={{
@@ -115,17 +117,54 @@ const App = () => {
                           resizeMode: "center",
                         }}
                       />
+                      <View
+                        style={{
+                          position: "absolute",
+                          right: -3,
+                          bottom: 22,
+                          height: 14,
+                          width: 14,
+                          backgroundColor: "#E96E6E",
+                          borderRadius: 7,
+                          alignItems: "center",
+                          justifyContent: "center",
+                        }}
+                      >
+                        <Text style={{ color: "white", fontSize: 10 }}>
+                          {cartItems.length}
+                        </Text>
+                      </View>
+                    </View>
                   );
                 } else {
                   return (
-                      <Image
-                        source={require("./src/assets/normal/shopping_cart.png")}
-                        style={{
-                          height: size,
-                          width: size,
-                          resizeMode: "center",
-                        }}
-                      />
+                      <View style={{ position: "relative" }}>
+                         <Image
+                            source={require("./src/assets/normal/shopping_cart.png")}
+                            style={{
+                              height: size,
+                              width: size,
+                              resizeMode: "center",
+                            }}
+                         />
+                         <View
+                            style={{
+                              position: "absolute",
+                               right: -3,
+                               bottom: 22,
+                               height: 14,
+                               width: 14,
+                               backgroundColor: "#C0C0C0",
+                               borderRadius: 7,
+                               alignItems: "center",
+                               justifyContent: "center",
+                            }}
+                         >
+                           <Text style={{ color: "white", fontSize: 10 }}>
+                             {cartItems.length}
+                           </Text>
+                         </View>
+                      </View>
                   );
                 }
               },

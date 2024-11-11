@@ -30,6 +30,22 @@ export const CartProvider = ({ children }) => {
     }
   };
 
+  const updateCartItem = async (id, type) => {
+      let cartItems = await AsyncStorage.getItem("cart");
+      cartItems = cartItems ? JSON.parse(cartItems) : [];
+      cartItems = cartItems.map((item) => {
+        if (id === item.id) {
+           item.quantity = type === "add" ? item.quantity + 1 : item.quantity - 1;
+        }
+
+        return item.quantity <= 0 ? null : item;
+      }).filter((item) => (item));
+
+      calculateTotalPrice(cartItems);
+      setCartItems(cartItems);
+      await AsyncStorage.setItem("cart", JSON.stringify(cartItems));
+  };
+
   const deleteCartItem = async (id) => {
     let cartItems = await AsyncStorage.getItem("cart");
     cartItems = cartItems ? JSON.parse(cartItems) : [];
@@ -40,15 +56,17 @@ export const CartProvider = ({ children }) => {
   };
 
   const calculateTotalPrice = (cartItems) => {
-    let totalSum = cartItems.reduce((total, item) => total + item.price, 0);
+    let totalSum = cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
     totalSum = totalSum.toFixed(2);
     setTotalPrice(totalSum);
   };
+
   const value = {
     cartItems,
     addToCartItem,
     deleteCartItem,
     totalPrice,
+    updateCartItem,
   };
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
 };

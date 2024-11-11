@@ -27,9 +27,12 @@ const ProductDetailsScreen = () => {
   const [selectedColor, setSelectedColor] = useState("#B11D1D");
 
   const handleAddToCart = () => {
-    product.color = selectedColor;
-    product.size = selectedSize;
-    addToCartItem(product);
+    addToCartItem({
+       ...product,
+       color: selectedColor,
+       size: selectedSize,
+       quantity: 1,
+    });
     navigation.navigate("CART")
   };
 
