@@ -1,118 +1,137 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
+import { View, Text, Image } from "react-native";
+import React, { useContext } from "react";
+import { NavigationContainer } from "@react-navigation/native";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import HomeScreen from "./src/screen/HomeScreen";
+import Icon from "react-native-vector-icons/dist/FontAwesome";
+import Entypo from "react-native-vector-icons/dist/Entypo";
+import ProductDetailsScreen from "./src/screen/ProductDetailsScreen";
+import CartScreen from "./src/screen/CartScreen";
+import GameScreen from "./src/screen/GameScreen";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { CartContext, CartProvider } from "./src/context/CartContext";
 
-import React from 'react';
-import type {PropsWithChildren} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+const Tab = createBottomTabNavigator();
+const Stack = createNativeStackNavigator();
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
-
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
-
-function Section({children, title}: SectionProps): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
+const MyHomeStack = () => {
   return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
+      <Stack.Screen name="HOME" component={HomeScreen} />
+      <Stack.Screen name="PRODUCT_DETAILS" component={ProductDetailsScreen} />
+    </Stack.Navigator>
   );
-}
+};
 
-function App(): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
+const App = () => {
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+    <NavigationContainer>
+        <Tab.Navigator
+          screenOptions={{
+            headerShown: false,
+            tabBarShowLabel: false,
+          }}
+        >
+          <Tab.Screen
+            name="HOME_STACK"
+            component={MyHomeStack}
+            options={{
+              tabBarIcon: ({ focused, size }) => {
+                if (focused) {
+                  return (
+                    <Image
+                      source={require("./src/assets/focused/home.png")}
+                      style={{
+                        height: size,
+                        width: size,
+                        resizeMode: "center",
+                      }}
+                    />
+                  );
+                } else {
+                  return (
+                    <Image
+                      source={require("./src/assets/normal/home.png")}
+                      style={{
+                        height: size,
+                        width: size,
+                        resizeMode: "center",
+                      }}
+                    />
+                  );
+                }
+              },
+            }}
+          />
+          <Tab.Screen
+            name="GAME"
+            component={GameScreen}
+            options={{
+              tabBarIcon: ({ focused, size }) => {
+                if (focused) {
+                  return (
+                    <Image
+                      source={require("./src/assets/focused/game.png")}
+                      style={{
+                        height: size,
+                        width: size,
+                        resizeMode: "center",
+                      }}
+                    />
+                  );
+                } else {
+                  return (
+                    <Image
+                      source={require("./src/assets/normal/game.png")}
+                      style={{
+                        height: size,
+                        width: size,
+                        resizeMode: "center",
+                      }}
+                    />
+                  );
+                }
+              },
+            }}
+          />
+          <Tab.Screen
+            name="CART"
+            component={CartScreen}
+            options={{
+              tabBarIcon: ({ focused, size }) => {
+                if (focused) {
+                  return (
+                      <Image
+                        source={require("./src/assets/focused/shopping_cart.png")}
+                        style={{
+                          height: size,
+                          width: size,
+                          resizeMode: "center",
+                        }}
+                      />
+                  );
+                } else {
+                  return (
+                      <Image
+                        source={require("./src/assets/normal/shopping_cart.png")}
+                        style={{
+                          height: size,
+                          width: size,
+                          resizeMode: "center",
+                        }}
+                      />
+                  );
+                }
+              },
+            }}
+          />
+        </Tab.Navigator>
+    </NavigationContainer>
   );
-}
-
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-});
+};
 
 export default App;
