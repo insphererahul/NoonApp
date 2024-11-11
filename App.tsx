@@ -10,6 +10,7 @@ import HomeScreen from "./src/screen/HomeScreen";
 import ProductDetailsScreen from "./src/screen/ProductDetailsScreen";
 import CartScreen from "./src/screen/CartScreen";
 import GameScreen from "./src/screen/GameScreen";
+import { CartProvider } from "./src/context/CartContext";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -30,6 +31,7 @@ const MyHomeStack = () => {
 const App = () => {
   return (
     <NavigationContainer>
+      <CartProvider>
         <Tab.Navigator
           screenOptions={{
             headerShown: false,
@@ -130,6 +132,7 @@ const App = () => {
             }}
           />
         </Tab.Navigator>
+      </CartProvider>
     </NavigationContainer>
   );
 };
