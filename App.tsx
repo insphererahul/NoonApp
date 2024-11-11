@@ -2,14 +2,14 @@ import { View, Text, Image } from "react-native";
 import React, { useContext } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import HomeScreen from "./src/screen/HomeScreen";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Icon from "react-native-vector-icons/dist/FontAwesome";
 import Entypo from "react-native-vector-icons/dist/Entypo";
+
+import HomeScreen from "./src/screen/HomeScreen";
 import ProductDetailsScreen from "./src/screen/ProductDetailsScreen";
 import CartScreen from "./src/screen/CartScreen";
 import GameScreen from "./src/screen/GameScreen";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { CartContext, CartProvider } from "./src/context/CartContext";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
